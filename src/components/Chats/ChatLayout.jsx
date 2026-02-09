@@ -3,8 +3,8 @@ import ChatRoom from './ChatRoom'
 
 function ChatLayout({ roomId }) {
   return (
-    <div className="flex h-[84vh] border-b border-t">
-      <div className="w-72 h-full border-r">
+    <div className="m-2 flex h-[84vh] border-b border-t">
+      <div className=" h-full border-r border-l">
         <RoomList />
       </div>
 

@@ -16,16 +16,15 @@ import Signup from './pages/Signup.jsx'
 import Profile from './pages/Profile.jsx'
 
 import Chat from './pages/Chat.jsx'
-
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
     children: [
-      // Public Routes : 
+      // Public Routes
       {
         path: '/',
-        element: <Home /> // redirect logic only
+        element: <Home />
       },
       {
         path: '/login',
@@ -43,7 +42,8 @@ const router = createBrowserRouter([
           </AuthLayout>
         )
       },
-      // Protected Routes :
+
+      // Protected Routes
       {
         path: '/profile-setup',
         element: (
@@ -67,10 +67,21 @@ const router = createBrowserRouter([
             <Chat />
           </AuthLayout>
         )
+      },
+
+      // ✅ ADD THIS (ALWAYS LAST)
+      {
+        path: "*",
+        element: (
+          <div className="h-full flex items-center justify-center text-white text-3xl">
+            404 — Page Not Found
+          </div>
+        )
       }
     ]
   }
 ]);
+
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
