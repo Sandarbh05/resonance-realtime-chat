@@ -1,24 +1,60 @@
-import React, {useId} from 'react'
+// import React, {useId} from 'react'
 
  
-const Input=React.forwardRef(function Input (
-    {
-        label,
-        type="text",    
-        className="",
-        ...props
-    }, ref
-){
-    const id=useId();
-    return (<div className="w-full p-2">
-        {
-            label && <label className="inline-block mb-1 pl-1" htmlFor={id}>
-                {label}
-            </label>
-        }
-        <input type={type} className={`px-3 py-2 rounded-lg bg-white  text-black outline-none focus:bg-gray-50 duration-200 border border-gray-200 w-full ${className}`} ref={ref} {...props} id={id}/>
-    </div>)
-})
+// const Input=React.forwardRef(function Input (
+//     {
+//         label,
+//         type="text",    
+//         className="",
+//         ...props
+//     }, ref
+// ){
+//     const id=useId();
+//     return (<div className="w-full p-2">
+//         {
+//             label && <label className="inline-block mb-1 pl-1" htmlFor={id}>
+//                 {label}
+//             </label>
+//         }
+//         <input type={type} className={`px-3 py-2 rounded-lg bg-white  text-black outline-none focus:bg-gray-50 duration-200 border border-gray-200 w-full ${className}`} ref={ref} {...props} id={id}/>
+//     </div>)
+// })
     
 
-export default Input
+// export default Input
+
+import React, { useId } from 'react'
+
+const Input = React.forwardRef(function Input(
+  {
+    label,
+    type = "text",
+    className = "",
+    ...props
+  }, ref
+) {
+  const id = useId();
+
+  return (
+    <div className="w-full flex flex-col gap-2">
+      {label && (
+        <label
+          htmlFor={id}
+          className="text-md font-medium text-white"
+        >
+          {label}
+        </label>
+      )}
+
+      <input
+        id={id}
+        type={type}
+        ref={ref}
+        {...props}
+        className={`w-full px-6 py-2 rounded-xl bg-white text-black outline-none focus:bg-gray-50 transition duration-200 border border-gray-200 ${className}`}
+      />
+    </div>
+  );
+});
+
+export default Input;

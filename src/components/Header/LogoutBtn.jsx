@@ -24,7 +24,7 @@ function LogoutBtn() {
   }
 
   return (
-    <button className="border border-white bg-transparent rounded-2xl hover:bg-blue-600 text-2xl w-[8vw] p-1 absolute top-[5vh] right-[2vw]" onClick={logoutHandler}>
+    <button className="border px-4 py-2 border-white bg-transparent rounded-full hover:bg-blue-600 text-sm sm:text-base" onClick={logoutHandler}>
       Logout
     </button>
   )

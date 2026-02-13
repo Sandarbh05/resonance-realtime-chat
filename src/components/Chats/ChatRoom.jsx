@@ -103,7 +103,7 @@ function ChatRoom({ roomId }) {
   }
 
   return (
-    <div className="h-[84vh] w-8/12 flex flex-col border-r">
+    <div className="flex flex-col h-full w-full overflow-hidden min-h-0">
 
       {/* ---------- GROUP HEADER ---------- */}
       {room?.isGroup && (
@@ -126,7 +126,7 @@ function ChatRoom({ roomId }) {
             <>
               <button
                 onClick={() => setShowAddUser(p => !p)}
-                className="text-xs px-2 py-1 border rounded sticky"
+                className="text-xs px-2 py-1 border rounded"
               >
                 + Add Member
               </button>
@@ -157,22 +157,22 @@ function ChatRoom({ roomId }) {
       )}
 
       {/* ---------- MESSAGES ---------- */}
-      <div className="flex-1 p-4 overflow-y-auto space-y-2">
+      <div className="flex-1 p-4 overflow-y-auto space-y-2 min-h-0">
         {messages.map(msg => {
           const isMe = msg.senderId === user.$id
 
           return (
             <div
               key={msg.$id}
-              className={`max-w-md space-y-2 rounded ${
+              className={`w-md max-w-[50%] space-y-2 rounded ${
                 isMe
                   ? 'ml-auto bg-blue-500 text-white'
-                  : 'bg-[#2CBC46]'
+                  : 'bg-yellow-500'
               }`}
             >
               {/* Sender name for group */}
               {room?.isGroup && !isMe && (
-                <div className="p-1 text-md font-semibold text-black mb-1 border-none rounded-t-lg bg-[#DBDBDB]">
+                <div className="p-1 text-md font-semibold text-white mb-1 border-none rounded-t-sm bg-purple-400">
                   {senderMap[msg.senderId] || 'Loading...'}
                 </div>
               )}
@@ -184,19 +184,19 @@ function ChatRoom({ roomId }) {
       </div>
 
       {/* ---------- INPUT ---------- */}
-      <div className="p-1 border-t flex gap-2 w-full">
+      <div className="p-1 border-t flex gap-2 items-center">
         <input
           value={text}
           onChange={e => setText(e.target.value)}
-          className="flex-1 border rounded px-3 py-1"
+          className="flex-1 border rounded px-3 py-2"
           placeholder="Type a message..."
         />
         <button
           onClick={handleSend}
-          className="px-4 py-0.5 bg-white rounded text-[#878686] absolute bottom-[3vh] right-[27vw]"
+          className="px-4 py-2 bg-white rounded text-[#878686] shrink-0"
         >
           Send
-        </button>
+        </button> 
       </div>
     </div>
   )

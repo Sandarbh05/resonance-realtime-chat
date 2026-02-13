@@ -57,128 +57,137 @@ function RoomList() {
   }, [rooms, user])
 
   return (
-    <div className="px-4">
+<div className="flex flex-col h-full min-h-0 text-white px-4 py-4">
 
-      {/* 🔹 SHOW USER ID */}
-      {user && (
-        <div className="absolute top-[5vh] left-1/2 -translate-x-1/2 p-2 bg-transparent text-lg flex items-center justify-between border-2 border-[#F8F8F8]" style={{font: "Seoge UI"}}>
-          <div className="truncate">
-            <span className="font-semibold">Your User ID:</span>{' '}
-            <span className="select-all">{user.$id}</span>
-          </div>
+  {/* User ID */}
+  {user && (
+    <div className="mb-4 p-2 border border-white rounded-md text-sm flex items-center justify-between ">
+      <div className="truncate">
+        <span className="font-semibold">User ID:</span>{" "}
+        <span className="select-all">{user.$id}</span>
+      </div>
+
+      <button
+        className="ml-2 text-xs bg-white text-black rounded px-2 py-1 hover:bg-gray-200"
+        onClick={() => navigator.clipboard.writeText(user.$id)}
+      >
+        Copy
+      </button>
+    </div>
+  )}
+
+  {/* Header */}
+  <h2 className="font-semibold mb-3 text-2xl">
+    Rooms
+  </h2>
+
+  {/* New Chat */}
+  <button
+    onClick={() => {
+      setShowNewChat(prev => !prev)
+      setChatMode(null)
+    }}
+    className="w-full mb-3 px-3 py-2 border border-white rounded hover:bg-gray-700 transition"
+  >
+    + New Chat
+  </button>
+
+  {/* Create Chat Panel */}
+  {showNewChat && (
+    <div className="mb-4 space-y-2 border border-white rounded p-2">
+
+      {!chatMode && (
+        <>
+          <button
+            onClick={() => setChatMode('dm')}
+            className="w-full py-2 bg-gray-700 rounded hover:bg-gray-600"
+          >
+            Direct Message
+          </button>
 
           <button
-            className="ml-2 text-[#878686] bg-white rounded-[8px] px-1 py-0.5 hover:underline"
-            onClick={() => navigator.clipboard.writeText(user.$id)}
+            onClick={() => setChatMode('group')}
+            className="w-full py-2 bg-gray-700 rounded hover:bg-gray-600"
           >
-            copy
+            Create Group
           </button>
-        </div>
+        </>
       )}
 
-      {/* Header */}
-      <h2 className="font-semibold mb-3 text-3xl" style={{font: "Seoge UI"}}>Rooms</h2>
+      {chatMode === 'dm' && (
+        <input
+          placeholder="Enter userId"
+          className="w-full px-3 py-2 rounded text-black"
+          onKeyDown={async (e) => {
+            if (e.key === 'Enter') {
+              const targetUserId = e.target.value.trim()
+              if (!targetUserId) return
 
-      {/* New Chat Button */}
-      <button
-        onClick={() => {
-          setShowNewChat(prev => !prev)
-          setChatMode(null)
-        }}
-        className="w-full mb-3 px-3 py-2 bg-transparent text-white rounded text-2xl border-2 border-white"
-        style={{font: "Seoge UI"}}
-      >
-        + New Chat
-      </button>
+              const room = await service.createPrivateRoom(
+                user.$id,
+                targetUserId
+              )
 
-      {/* Create Chat Panel */}
-      {showNewChat && (
-        <div className="mb-3 space-y-2 border-2 border-white" style={{font: "Seoge UI"}}>
-
-          {!chatMode && (
-            <>
-              <button
-                onClick={() => setChatMode('dm')}
-                className="w-full py-1 bg-[#2F2F2F] text-white text-2xl"
-              >
-                Direct Message
-              </button>
-
-              <button
-                onClick={() => setChatMode('group')}
-                className="w-full py-1 bg-[#2F2F2F] text-white text-2xl"
-              >
-                Create Group
-              </button>
-            </>
-          )}
-
-          {/* DM */}
-          {chatMode === 'dm' && (
-            <input
-              placeholder="Enter userId"
-              className="w-full border px-2 py-1 rounded"
-              onKeyDown={async (e) => {
-                if (e.key === 'Enter') {
-                  const targetUserId = e.target.value.trim()
-                  if (!targetUserId) return
-
-                  const room = await service.createPrivateRoom(
-                    user.$id,
-                    targetUserId
-                  )
-
-                  setShowNewChat(false)
-                  setChatMode(null)
-                  navigate(`/chat/${room.$id}`)
-                }
-              }}
-            />
-          )}
-
-          {/* Group */}
-          {chatMode === 'group' && (
-            <input
-              placeholder="Enter group name"
-              className="w-full border px-2 py-1 rounded"
-              onKeyDown={async (e) => {
-                if (e.key === 'Enter') {
-                  const groupName = e.target.value.trim()
-                  if (!groupName) return
-
-                  const room = await service.createGroupRoom({
-                    name: groupName,
-                    creatorId: user.$id,
-                  })
-
-                  setShowNewChat(false)
-                  setChatMode(null)
-                  navigate(`/chat/${room.$id}`)
-                }
-              }}
-            />
-          )}
-        </div>
+              setShowNewChat(false)
+              setChatMode(null)
+              navigate(`/chat/${room.$id}`)
+            }
+          }}
+        />
       )}
 
-      {/* Rooms List */}
-      {rooms.length === 0 && (
-        <p className="text-sm text-gray-500">No rooms yet</p>
-      )}
+      {chatMode === 'group' && (
+        <input
+          placeholder="Enter group name"
+          className="w-full px-3 py-2 rounded text-black"
+          onKeyDown={async (e) => {
+            if (e.key === 'Enter') {
+              const groupName = e.target.value.trim()
+              if (!groupName) return
 
-      {rooms.map(room => (
-        <div
-          key={room.$id}
-          onClick={() => navigate(`/chat/${room.$id}`)}
-          className="p-2 cursor-pointer text-[#878686] bg-white text-2xl hover:bg-gray-300"
-        >
-          {/* 🔑 FIX IS HERE */}
-          {room.isGroup
-            ? room.name
-            : (userMap[room.$id] ?? 'Loading…')}
-        </div>
-      ))} 
+              const room = await service.createGroupRoom({
+                name: groupName,
+                creatorId: user.$id,
+              })
+
+              setShowNewChat(false)
+              setChatMode(null)
+              navigate(`/chat/${room.$id}`)
+            }
+          }}
+        />
+      )}
     </div>
+  )}
+
+  {/* Scrollable Rooms List */}
+  <div className=" flex-1 overflow-y-auto space-y-2 pr-1 min-h-0" style={{
+    overflow: screenY
+  }}> 
+    {rooms.length === 0 && (
+      <p className="text-sm text-gray-400">
+        No rooms yet
+      </p>
+    )}
+
+    {rooms.map(room => (
+      
+
+      <div
+        key={room.$id}
+        onClick={() => navigate(`/chat/${room.$id}`)}
+        className="p-3 rounded bg-white text-black cursor-pointer hover:bg-gray-200 transition text-sm md:text-base" 
+        >
+        {room.isGroup
+          ? room.name
+          : (userMap[room.$id] ?? 'Loading…')}
+      </div>
+
+    ))}
+  </div>
+
+</div>
+
   )
 }
 

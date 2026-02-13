@@ -42,26 +42,48 @@ function Profile() {
   }
 
   return (
-    <div className="flex items-center justify-center w-full text-2xl" style={{font: "Seoge UI"}}>
-      <div className="mx-auto bg-[#81B9F9] rounded-[20px] px-4 py-4 border-[#878686] shadow-[inset_-4px_4px_4px_8px_rgba(85,76,76,0.25),_-12px_16px_4px_4px_rgba(105,102,129,0.5)]">
-        <h2 className="text-center font-bold leading-tight text-3xl">
-          Profile Setup
-        </h2>
-        <form onSubmit={handleSubmit(submit)} className="flex flex-col space-y-5">
-          <Input
-            label="Your Name"
-            placeholder="Enter your name"
-            {...register('name', { required: true, minLength: 2 })}
-          />
 
-          {error && <p className="text-red-600 text-sm">{error}</p>}
+    <div className="w-full" style={{ font: "Seoge UI" }}>
+  <div className="w-full bg-[#81B9F9] rounded-2xl p-10 sm:p-8 border border-[#878686] shadow-[inset_-4px_4px_4px_8px_rgba(85,76,76,0.25),_-12px_16px_4px_4px_rgba(105,102,129,0.5)]">
 
-          <Button type="submit" bgColor="bg-[#2CBC46]" className="inline-block w-[16vw] h-[8vh] font-bold mt-2 mx-auto" disabled={loading}>
-            {loading ? 'Saving...' : 'Continue'}
-          </Button>
-        </form>
+    <h2 className="text-center font-bold leading-tight text-2xl sm:text-4xl">
+      Profile Setup
+    </h2>
+
+    <form
+      onSubmit={handleSubmit(submit)}
+      className="text-md sm:text-2xl mt-4"
+    >
+      <div className="space-y-12 md:space-y-8">
+
+        <Input
+          label="Your Name"
+          placeholder="Enter your name"
+          {...register('name', { required: true, minLength: 2 })}
+        />
+
+        {error && (
+          <p className="text-red-600 text-center text-sm">
+            {error}
+          </p>
+        )}
+
+        <Button
+          type="submit"
+          bgColor="bg-[#2CBC46]"
+          textColor="text-white"
+          className="sm:w-1/2 font-bold mx-auto mt-6"
+          disabled={loading}
+        >
+          {loading ? 'Saving...' : 'Continue'}
+        </Button>
+
       </div>
-    </div>
+    </form>
+
+  </div>
+</div>
+
   )
 }
 
