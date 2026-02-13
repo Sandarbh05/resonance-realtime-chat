@@ -117,7 +117,7 @@ function RoomList() {
       {chatMode === 'dm' && (
         <input
           placeholder="Enter userId"
-          className="w-full px-3 py-2 rounded text-black"
+          className="w-full px-3 py-2 rounded bg-gray-700 hover:bg-gray-600"
           onKeyDown={async (e) => {
             if (e.key === 'Enter') {
               const targetUserId = e.target.value.trim()
@@ -139,7 +139,7 @@ function RoomList() {
       {chatMode === 'group' && (
         <input
           placeholder="Enter group name"
-          className="w-full px-3 py-2 rounded text-black"
+          className="w-full px-3 py-2 rounded bg-grat-700 hover:bg-gray-600"
           onKeyDown={async (e) => {
             if (e.key === 'Enter') {
               const groupName = e.target.value.trim()
