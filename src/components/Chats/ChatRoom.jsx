@@ -112,13 +112,7 @@ function ChatRoom({ roomId }) {
           {/* Members list */}
           <div className="p-2 text-md text-white bg-[#2BB5DF]">
             <span className="font-semibold">Members:</span>{' '}
-            {/* {members.map(id => (
-              <span key={id} className="mr-2">
-                {memberMap[id] || id}
-                {room.admins?.includes(id) && ' 👑'}
-                {id === user.$id && ' (You)'}
-              </span>
-            ))} */}
+            
             {members.map((id, index) => {
               const name = memberMap[id] || id
               const isAdminMember = room.admins?.includes(id)
@@ -149,6 +143,7 @@ function ChatRoom({ roomId }) {
                 <input
                   placeholder="Enter userId"
                   className="border px-2 py-1 rounded text-sm w-full"
+                  enterKeyHint="done"
                   onKeyDown={async e => {
                     if (e.key === 'Enter') {
                       const targetUserId = e.target.value.trim()
