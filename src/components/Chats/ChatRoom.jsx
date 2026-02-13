@@ -112,13 +112,27 @@ function ChatRoom({ roomId }) {
           {/* Members list */}
           <div className="p-2 text-md text-white bg-[#2BB5DF]">
             <span className="font-semibold">Members:</span>{' '}
-            {members.map(id => (
+            {/* {members.map(id => (
               <span key={id} className="mr-2">
                 {memberMap[id] || id}
                 {room.admins?.includes(id) && ' 👑'}
                 {id === user.$id && ' (You)'}
               </span>
-            ))}
+            ))} */}
+            {members.map((id, index) => {
+              const name = memberMap[id] || id
+              const isAdminMember = room.admins?.includes(id)
+              const isCurrentUser = id === user.$id
+
+              return (
+                <span key={id}>
+                  {name}
+                  {isAdminMember && " 👑"}
+                  {isCurrentUser && " (You)"}
+                  {index < members.length - 1 && ", "}
+                </span>
+              )
+            })}
           </div>
 
           {/* Add member (ADMIN ONLY) */}
